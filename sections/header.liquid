@@ -17,7 +17,7 @@
 {% include 'search-drawer' %}
 
 <div data-section-id="{{ section.id }}" data-section-type="header-section" data-header-section>
-  {% if section.settings.message %}
+  {% comment %} {% if section.settings.message %}
     {% if section.settings.home_page_only == false or request.page_type == 'index' %}
       <style>
         .announcement-bar {
@@ -39,6 +39,10 @@
         .announcement-bar__message {
           color: {{ section.settings.color_text }};
         }
+
+        .custom--hr {
+          border: 1px solid #002366;
+        }
       </style>
 
       <div class="announcement-bar" role="region" aria-label="{{ 'sections.header.announcement_bar_label' | t }}">
@@ -52,7 +56,7 @@
       </div>
 
     {% endif %}
-  {% endif %}
+  {% endif %} {% endcomment %}
 
   <header class="site-header{% if section.settings.align_logo == 'left' %} border-bottom logo--left{% else %} logo--center{% endif %}" role="banner">
     <div class="grid grid--no-gutters grid--table site-header__mobile-nav">
@@ -249,6 +253,51 @@
     {% include 'site-nav', linklist: section.settings.main_linklist, wrapper_class: 'site-nav--centered' %}
   </nav>
   {% endif %}
+
+  {% if section.settings.message %}
+    {% if section.settings.home_page_only == false or request.page_type == 'index' %}
+      <style>
+        .announcement-bar {
+          background-color: {{ section.settings.color_bg }};
+        }
+
+        .announcement-bar__link:hover {
+          {% assign brightness = section.settings.color_bg | color_brightness %}
+
+          {% if brightness <= 192 %}
+            {% assign lightenAmount = 255 | minus: brightness | divided_by: 255 | times: 16 %}
+            background-color: {{ section.settings.color_bg | color_lighten: lightenAmount }};
+          {% else %}
+            {% assign darkenAmount = 255 | divided_by: brightness | times: 8 %}
+            background-color: {{ section.settings.color_bg | color_darken: darkenAmount }};
+          {% endif %}
+        }
+
+        .announcement-bar__message {
+          color: {{ section.settings.color_text }};
+        }
+
+        .custom--hr {
+          border: 1px solid #002366;
+          
+        }
+      </style>
+
+      <div class="announcement-bar" role="region" aria-label="{{ 'sections.header.announcement_bar_label' | t }}">
+        {%- unless section.settings.message_link == blank -%}
+          <a href="{{ section.settings.message_link }}" class="announcement-bar__link">
+        {%- endunless -%}
+            <p class="announcement-bar__message">{{ section.settings.message_text | escape }}</p>
+        {%- unless section.settings.message_link == blank -%}
+          </a>
+        {%- endunless -%}
+      </div>
+
+    {% endif %}
+  {% endif %}
+
+  <hr class="custom--hr">
+  <hr class="custom--hr">
 </div>
 
 
