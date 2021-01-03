@@ -154,7 +154,7 @@
 
           <ul class="slick-dots" data-slider-indicators>
             {%- for block in section.blocks -%}
-              <li{% if forloop.first %} class="slick-active"{% endif %} data-slider-indicator>
+              <li {% if forloop.first %} class="slick-active"{% endif %} data-slider-indicator>
                 <a href="#Slideshow-{{ section.id }}" aria-label="{{ 'sections.slideshow.load_slide' | t: slide_number: forloop.index }}" data-slide-number="{{ forloop.index0 }}" aria-controls="slickSlide-{{ block.id }}"></a>
               </li>
             {%- endfor -%}
