@@ -33,7 +33,8 @@
            style="height: {{- wrapper_height -}}vw"{% endif %}>
         {%- for block in section.blocks -%}
           {%- assign block_image = block.settings.image -%}
-          <div id="slickSlide-{{ block.id }}" class="slideshow__slide slideshow__slide--{{ block.id }}{% if forloop.first %} slideshow__slide--active{% endif %}" data-slider-slide-index="{{ forloop.index0 }}" data-slider-item {{ block.shopify_attributes }}>
+        <a class="btn--secondary" href="{{ block.settings.button_link }}" target="_blank">
+          <div id="slickSlide-{{ block.id }}" class="btn--secondary slideshow__slide slideshow__slide--{{ block.id }}{% if forloop.first %} slideshow__slide--active{% endif %}" data-slider-slide-index="{{ forloop.index0 }}" data-slider-item {{ block.shopify_attributes }}>
             {% if block_image == blank %}
               <div class="slideshow__image js">
                 <div class="placeholder-background">
@@ -96,17 +97,21 @@
                   {%- if block.settings.button_label != blank and block.settings.button_link != blank -%}
                     {%- assign show_link_button = true -%}
                   {%- endif -%}
-                  {%- if show_link_button -%}
+              {% comment %}
+              Remove the button from mobile display as the slideshow itself is clickable.
+              {% endcomment %}
+                  {% comment %} {%- if show_link_button -%}
                     <div class="slideshow__btn-wrapper{% if block.settings.slide_title != blank or block.settings.subheading != blank %} slideshow__btn-wrapper--push{% endif %}">
                       <a href="{{ block.settings.button_link }}" class="btn slideshow__btn">
                         {{ block.settings.button_label | escape }}
                       </a>
                     </div>
-                  {%- endif -%}
+                  {%- endif -%} {% endcomment %}
                 </div>
               </div>
             </div>
           </div>
+        </a>
         {%- endfor -%}
       </div>
       <div class="slideshow__controls">
@@ -179,12 +184,15 @@
                   {{ block.settings.subheading | escape }}
                 </span>
               {%- endunless -%}
+              {% comment %}
+              Remove the button from mobile display as the slideshow itself is clickable.
+              {% endcomment %}
 
-              {%- if show_link_button -%}
+              {% comment %} {%- if show_link_button -%}
                 <a href="{{ block.settings.button_link }}" class="btn slideshow__btn slideshow__btn--mobile">
                   {{ block.settings.button_label | escape }}
                 </a>
-              {%- endif -%}
+              {%- endif -%} {% endcomment %}
             </div>
           </div>
         {%- endif -%}
